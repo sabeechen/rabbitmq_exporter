@@ -1,0 +1,24 @@
+name: Upload to GHCR
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+jobs:
+      build-and-push:
+        runs-on: ubuntu-latest
+        steps:
+          - name: 'Checkout GitHub Action'
+            uses: actions/checkout@main
+
+          - name: 'Login to GitHub Container Registry'
+            uses: docker/login-action@v1
+            with:
+              registry: ghcr.io
+              username: ${{github.actor}}
+              password: ${{secrets.GITHUB_TOKEN}}
+
+          - name: 'Build Inventory Image'
+            run: |
+              docker build . --tag ghcr.io/sabeechen/rabbitmq_exporter:v1.0.0
+              docker push ghcr.io/sabeechen/rabbitmq_exporter
