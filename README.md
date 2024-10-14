@@ -1,6 +1,6 @@
 # A Very "Basic" RabbitMQ Exporter
 
-Provides a "super simple" RabbitMq exporter that exposes metrics and healthz endpoints.  Onyl a handful of global celery queue metrics are reported:
+Provides a "super simple" RabbitMq exporter that exposes metrics and healthz endpoints.  Only a handful of global celery queue metrics are reported:
  - `rabbitmq_queue_messages` - The message queue length
  - `rabbitmq_queue_message_bytes` - The message queue size in bytes
  - `rabbitmq_queue_messages_ready` - The number of messages ready to be consumed
@@ -11,7 +11,7 @@ Provides a "super simple" RabbitMq exporter that exposes metrics and healthz end
 
  ### Endpoints
  - `/metrics` - The metrics endpoint
- - `/healthz` - The healthz endpoint.  Returns a non-200 response when ti can't reach RabbitMQ successfuly.
+ - `/healthz` - The healthz endpoint.  Returns a non-200 response when it can't reach RabbitMQ successfuly.
 Endpoints are hard-coded to listen on port 9090.
 
  # Why?
