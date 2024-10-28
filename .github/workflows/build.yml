@@ -23,5 +23,5 @@ jobs:
 
           - name: 'Build Inventory Image'
             run: |
-              docker build . --tag ghcr.io/sabeechen/rabbitmq_exporter:v1.0.0
-              docker push ghcr.io/sabeechen/rabbitmq_exporter:v1.0.0
+              docker build . --tag ghcr.io/sabeechen/rabbitmq_exporter:v2.0.0
+              docker push ghcr.io/sabeechen/rabbitmq_exporter:v2.0.0

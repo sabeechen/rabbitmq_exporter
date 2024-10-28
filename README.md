@@ -30,7 +30,7 @@ Endpoints are hard-coded to listen on port 9090.
  ```bash
  python exporter.py --url amqps://user:pass@XXX-XXX-XXX.mq.us-west-1.amazonaws.com
  ```
- The scheme/port/path for the url is always ignored and https:443 is used against the specified hostname.  The user and pass can also be specified using `--user` and `--password`.
+ The scheme/port/path for the url is always ignored and https:443 is used against the specified hostname, pass `--verify-ssl=false` to disable SSL verification.  The user and pass can also be specified using `--user` and `--password`.
 
 
  ### Run it in Docker
@@ -43,3 +43,4 @@ The args can also be specified as environment variables:
  - `MQ_USER` - RabbitMQ username
  - `MQ_PASSWORD` - RabbitMQ password
  - `MQ_TIMEOUT` - RabbitMQ http timeout (seconds)
+ - `MQ_VERIFY_SSL` - Verify SSL certs from the broker (true/false)

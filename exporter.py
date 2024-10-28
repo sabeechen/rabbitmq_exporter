@@ -20,10 +20,11 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class Server:
-    def __init__(self, url: str, auth: bytes|None, timeout: float):
+    def __init__(self, url: str, auth: bytes|None, timeout: float, verify_ssl: bool):
         self.url = url
         self.auth = auth
         self.timeout = timeout
+        self.verify_ssl = verify_ssl
 
         self.up = False
 
@@ -32,7 +33,7 @@ class Server:
         if self.auth:
             headers = {'Authorization': f'Basic {self.auth}'}
         async with async_timeout.timeout(self.timeout):
-            async with session.get(url, headers=headers) as response:
+            async with session.get(url, headers=headers, verify_ssl=self.verify_ssl) as response:
                 return await response.json()
 
     async def _healthz(self, _request = None):
@@ -85,6 +86,7 @@ async def main():
     parser.add_argument("--user", default=os.environ.get("MQ_USER", ""), help="RabbitMQ username")
     parser.add_argument("--password", default=os.environ.get("MQ_PASSWORD", ""), help="RabbitMQ password")
     parser.add_argument("--timeout", default=float(os.environ.get("MQ_TIMEOUT", "30")), type=float, help="RabbitMQ http timeout (seconds)")
+    parser.add_argument("--verify-ssl", default=os.environ.get("MQ_VERIFY_SSL", "true").lower() == "true", type=bool, help="Verify SSL")
     args = parser.parse_args()
 
     host = ""
@@ -109,7 +111,7 @@ async def main():
         auth = base64.b64encode(f"{user}:{password}".encode()).decode()
 
 
-    server = Server(f"https://{host}", auth, args.timeout)
+    server = Server(f"https://{host}", auth, args.timeout, args.verify_ssl)
     await server.run()
 
     while True:
